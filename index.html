@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>君霄粉丝模拟器</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #story {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .button {
+            padding: 12px 24px;
+            margin: 8px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="story"></div>
+    <div id="choices"></div>
+
+    <script>
+        const scenes = {
+            start: {
+                text: "你是陈丽君or李云霄的粉丝，现在正在微博超话。你决定打开一个超话签到：",
+                choices: [
+                    { text: "陈丽君超话", nextScene: "chenSuperTopic" },
+                    { text: "李云霄超话", nextScene: "liSuperTopic" },
+                    { text: "君霄ddf超话", nextScene: "junxiaoDDF" }
+                ]
+            },
+            junxiaoDDF: {
+                text: "你是陈丽君，214李云霄饭圈粉丝对大V进行疯狂的攻击，围观的你吓死了，你选择：",
+                choices: [
+                    { text: "彻底避嫌", nextScene: "avoidChoice" },
+                    { text: "正常合体", nextScene: "normalInteraction" }
+                ]
+            },
+            avoidChoice: {
+                text: "目前结果都在按照彻底必选的选项发展",
+                choices: [
+                    { text: "如果能重来", nextScene: "start" }
+                ]
+            },
+            normalInteraction: {
+                text: "陈丽君和李云霄共同出演了《五女拜寿》，在谢幕时，大方牵手的感谢各位粉丝辛苦的到场支持。你作为粉丝会选择：",
+                choices: [
+                    { text: "希望她俩互动更亲密", nextScene: "intimateInteraction" },
+                    { text: "希望他俩上新戏，我磕事业", nextScene: "careerSuccess" }
+                ]
+            },
+            intimateInteraction: {
+                text: "希望什么亲密互动？",
+                choices: [
+                    { text: "亲嘴", nextScene: "tooMuch" },
+                    { text: "原地结婚", nextScene: "tooMuch" }
+                ]
+            },
+            tooMuch: {
+                text: "别做梦💭了～这些是你能看的吗！！罚你去面壁！！",
+                choices: [
+                    { text: "如果能重来", nextScene: "start" }
+                ]
+            },
+            careerSuccess: {
+                text: "君霄事业越来越好，一起排练了大观园，参加了法国文化活动，知道越剧和传统文化的人越来越多。俩人获得金贵，获得梅花，接到许多新的商业代言，事业更进一层楼，流量变留量。",
+                choices: [
+                    { text: "如果能重来", nextScene: "start" }
+                ]
+            },
+            chenSuperTopic: {
+                text: "你是陈丽君，214李云霄饭圈粉丝对大V进行疯狂的攻击，围观的你吓死了，你选择：",
+                choices: [
+                    { text: "彻底避嫌", nextScene: "normalEnding" },
+                    { text: "正常合体", nextScene: "normalEnding" }
+                ]
+            },
+            liSuperTopic: {
+                text: "你是陈丽君，214李云霄饭圈粉丝对大V进行疯狂的攻击，围观的你吓死了，你选择：",
+                choices: [
+                    { text: "彻底避嫌", nextScene: "normalEnding" },
+                    { text: "正常合体", nextScene: "normalEnding" }
+                ]
+            },
+            normalEnding: {
+                text: "希望她们事业越来越好，可以了解一个君霄ddf超话",
+                choices: [
+                    { text: "如果能重来", nextScene: "start" }
+                ]
+            }
+        };
+
+        function showScene(sceneId) {
+            const scene = scenes[sceneId];
+            if (!scene) return;
+
+            document.getElementById('story').textContent = scene.text;
+            const choicesDiv = document.getElementById('choices');
+            choicesDiv.innerHTML = '';
+            
+            scene.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'button';
+                button.textContent = choice.text;
+                button.onclick = () => showScene(choice.nextScene);
+                choicesDiv.appendChild(button);
+            });
+        }
+
+        window.onload = () => showScene('start');
+    </script>
+</body>
+</html>
